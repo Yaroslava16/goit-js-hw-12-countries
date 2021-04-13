@@ -1,4 +1,4 @@
-export default fetchCountries('https://restcountries.eu/#api-endpoints-name')
+export default fetchCountries('https://restcountries.eu/rest/v2/name/{name}')
   .then(response => {
     return response.json();
   })
