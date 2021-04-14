@@ -2,11 +2,11 @@
     <h2 class="name">{{name}}</h2>
     <p class="capital">Capital: {{capital}}</p>
     <p class="population">Population: {{population}}</p>
-    {{#each languages}}
     <ul class="languages">
+        {{#each languages}}
         <li class="languages-item">{{language.name}}</li>
+        {{/each}}
     </ul>
-    {{/each}}
     <div class="card-img">
         <img src="{{flag}}" alt="{{name}}">
     </div>
