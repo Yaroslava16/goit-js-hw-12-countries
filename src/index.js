@@ -3,6 +3,10 @@ import API from './js/api-service';
 import getRefs from './js/get-refs';
 import * as _ from 'lodash';
 import countryCardTpl from './templates/country-data.hbs';
+import countriesList from './templates/many-country.hbs';
+
+import '@pnotify/core/dist/BrightTheme.css';
+const { error } = require('@pnotify/core');
 
 const refs = getRefs();
 
@@ -14,20 +18,36 @@ function onInputClick(e) {
   const searchQuery = e.target.value;
 
   API.fetchCountries(searchQuery)
-    .then(renderCountryCard)
-    .catch(onFetchError)
-    .finally(() => (refs.input.value = ''));
-
-  // if (refs.input.value === { name }) {
-  //   fetchCountries(searchQuery);
-  // }
+    .then(data => {
+      if (data.length > 10) {
+        alert({
+          text: 'Too many matches found. Please enter a more specific query!',
+        });
+      } else if (data.status === 404) {
+        alert({
+          text:
+            'No country has been found. Please enter a more specific query!',
+        });
+      } else if (data.length === 1) {
+        renderCountryCard(data, countryCardTpl);
+      } else if (data.length <= 10) {
+        renderCountryCard(data, countriesList);
+      }
+    })
+    .catch(Error => {
+      Error({
+        text: 'You must enter query parameters!',
+      });
+      console.log(Error);
+    })
+    .finally(() => clearListCountries());
 }
 
-function renderCountryCard(country) {
-  const markup = countryCardTpl(country);
-  refs.cardConteiner.innerHTML = markup;
+function renderCountryCard(countries, template) {
+  const markup = countries.map(country => template(country)).join();
+  refs.countryList.insertAdjacentHTML('afterbegin', markup);
 }
 
-function onFetchError(error) {
-  alert('Такой страны не существует :(');
+function clearListCountries() {
+  refs.countryList.innerHTML = '';
 }
