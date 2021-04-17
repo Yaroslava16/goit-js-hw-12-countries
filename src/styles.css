@@ -7,3 +7,31 @@ html {
 *::after {
   box-sizing: inherit;
 }
+.body {
+  background-color: rgba(77, 228, 39, 0.788);
+}
+
+.input {
+  display: flex;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 12px;
+  width: 30%;
+  border: 5px solid rgba(0, 0, 0, 0.945);
+  border-radius: 10px;
+  color: rgb(24, 104, 4);
+  outline: none;
+
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: larger;
+  text-align: center;
+
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+.input:focus,
+.input:hover {
+  width: 80%;
+}
