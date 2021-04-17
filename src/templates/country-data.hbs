@@ -1,13 +1,13 @@
-<div class="card">
-    <h2 class="name">{{name}}</h2>
+{{#each this}}
+<h1 class="name">{{name}}</h2>
     <p class="capital">Capital: {{capital}}</p>
     <p class="population">Population: {{population}}</p>
     <ul class="languages">
         {{#each languages}}
-        <li class="languages-item">{{language.name}}</li>
+        <li class="languages-item">{{name}}</li>
         {{/each}}
     </ul>
     <div class="card-img">
         <img src="{{flag}}" alt="{{name}}">
     </div>
-</div>
+    {{/each}}

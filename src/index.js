@@ -1,12 +1,10 @@
 import './styles.css';
 import API from './js/api-service';
 import getRefs from './js/get-refs';
+import notifications from './js/notifications';
 import * as _ from 'lodash';
 import countryCardTpl from './templates/country-data.hbs';
 import countriesList from './templates/many-country.hbs';
-
-import '@pnotify/core/dist/BrightTheme.css';
-const { error } = require('@pnotify/core');
 
 const refs = getRefs();
 
@@ -20,34 +18,29 @@ function onInputClick(e) {
   API.fetchCountries(searchQuery)
     .then(data => {
       if (data.length > 10) {
-        alert({
-          text: 'Too many matches found. Please enter a more specific query!',
-        });
-      } else if (data.status === 404) {
-        alert({
-          text:
-            'No country has been found. Please enter a more specific query!',
-        });
-      } else if (data.length === 1) {
-        renderCountryCard(data, countryCardTpl);
-      } else if (data.length <= 10) {
-        renderCountryCard(data, countriesList);
+        clearListCountries();
+        notifications.manyCoincidences();
+      } else if (data.length >= 2 && data.length <= 10) {
+        renderCountriesList(data);
+      } else {
+        notifications.successfulSearch();
+        renderCountry(data);
       }
     })
-    .catch(Error => {
-      Error({
-        text: 'You must enter query parameters!',
-      });
-      console.log(Error);
-    })
-    .finally(() => clearListCountries());
+    .catch(() => {
+      notifications.catchError();
+      clearListCountries();
+    });
 }
 
-function renderCountryCard(countries, template) {
-  const markup = countries.map(country => template(country)).join();
-  refs.countryList.insertAdjacentHTML('afterbegin', markup);
+function renderCountriesList(val) {
+  refs.countryConteiner.innerHTML = countriesList(val);
+}
+
+function renderCountry(val) {
+  refs.countryConteiner.innerHTML = countryCardTpl(val);
 }
 
 function clearListCountries() {
-  refs.countryList.innerHTML = '';
+  refs.countryConteiner.innerHTML = '';
 }
