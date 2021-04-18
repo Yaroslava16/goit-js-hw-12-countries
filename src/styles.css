@@ -21,6 +21,7 @@ ul {
   display: flex;
   margin-right: auto;
   margin-left: auto;
+  margin-top: 45px;
   padding: 12px;
   width: 30%;
   border: 5px solid rgba(0, 0, 0, 0.945);
@@ -47,6 +48,7 @@ ul {
   justify-content: center;
   margin: 0px 50px;
 }
+
 .data-country-conteiner {
   flex-direction: column;
   text-align: left;
@@ -54,10 +56,10 @@ ul {
 }
 .name {
   font-size: 70px;
-  border: ;
 }
 
-.data-values {
+.data-values,
+.list-countries {
   margin: 30px 0px;
   font-size: 50px;
 }
@@ -73,4 +75,7 @@ ul {
 
 .languages-item {
   margin-left: 70px;
+}
+
+.list-countries {
 }
